@@ -7,4 +7,4 @@ Requires the crackstation human only wordlist. Simply click [this](https://downl
 Extract and copy wordlist to this directory and you are good to go.  
 
 # Usage
-python3 cracker.py HASH
+`python3 cracker.py HASH`

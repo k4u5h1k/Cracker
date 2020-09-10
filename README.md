@@ -1,6 +1,6 @@
 # Cracker
 A hash cracker so simple, a five year old can use it.
-Wraps hashcat (installed automatically), and identifies hash type automatically.
+Wraps hashcat (installed automatically).
 
 # Installation
 Requires the crackstation human only wordlist. Simply click [this](https://download.g0tmi1k.com/wordlists/large/crackstation-human-only.txt.gz) link.  

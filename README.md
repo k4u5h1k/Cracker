@@ -3,8 +3,7 @@ A hash cracker so simple, a five year old can use it.
 Wraps hashcat (installed automatically).
 
 # Installation
-Requires the crackstation human only wordlist. Simply click [this](https://download.g0tmi1k.com/wordlists/large/crackstation-human-only.txt.gz) link.  
-Extract and copy wordlist to this directory and you are good to go.  
+Requires the crackstation human only wordlist. Cracker.py can install it automatically you simply need to give it permission to do so.
 
 # Usage
 `python3 cracker.py HASH`

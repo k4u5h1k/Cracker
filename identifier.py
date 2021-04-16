@@ -739,9 +739,11 @@ class HashID(object):
                             hashTypes += f"[+] {mode.name} "
                             hashTypes += f"[Hashcat Mode: {mode.hashcat}]"
                             hashTypes += "\n"
-        print(hashTypes)
         if count == 0 and shouldPrint:
             print("[+] Unknown hash")
+        else:
+            print("\nDetected hash to be one of the following,")
+            print(hashTypes)
 
         return modes
 

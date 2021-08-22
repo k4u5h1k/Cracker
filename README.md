@@ -8,3 +8,6 @@ Cracker.py can install it automatically you simply need to give it permission to
 
 # Usage
 `python3 cracker.py HASH`
+
+# Credit
+`identifier.py` was adapted from [HashID](https://github.com/psypanda/hashID)

@@ -1,6 +1,7 @@
 # Cracker
-A hash cracker so simple, a five year old can use it.
-Wraps hashcat (installed automatically).  
+Ever been tired of searching for your desired mode in hashcat? Well look no further. 
+
+Wraps hashcat (installed automatically).
 [![asciicast](https://asciinema.org/a/sosBv5XYt1BrydfhZ3xbOUsfR.svg)](https://asciinema.org/a/sosBv5XYt1BrydfhZ3xbOUsfR)  
 
 # Installation

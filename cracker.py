@@ -7,8 +7,10 @@ from shutil import which
 from identifier import HashID
 
 if not which("hashcat"):
-    print("hashcat not installed, installing manually")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "hashcat"])
+    shouldInstall = input("Hashcat not installed, install via pip? ")
+    shouldInstall = True if len(install_choice)==0 or install_choice.lower()[0]=='y' else False
+    if shouldInstall:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "hashcat"])
 
 try:
     from tqdm import *
@@ -23,6 +25,7 @@ def main(tocrack, proj_dir):
     hashfile = os.path.join(proj_dir,"hash.txt")
     crackedfile = os.path.join(proj_dir,"cracked_hashes.txt")
     wordlist = os.path.join(proj_dir,"wordlist.txt")
+    rule = os.path.join(proj_dir,"myrule.rule")
 
     with open(hashfile, "w+") as handle:
         handle.write(tocrack)
@@ -30,13 +33,30 @@ def main(tocrack, proj_dir):
     hashid = HashID()
     modes = hashid.identifyHash(tocrack)
 
+    use_rules = input("Use rules? ")
+    rules_choice = True if len(use_rules)==0 or use_rules.lower()[0]=='y' else False
+
+    # a => hash mode
+    # b => rule set
+    # c => hash file
+    # d => wordlist
+    # e => outfile
+    if rules_choice:
+        getcommand = lambda a, b, c, d, e: f'hashcat -a 0 -m {a} -r {b} --remove --potfile-disable "{c}" "{d}" -o "{e}"'
+    else:
+        getcommand = lambda a, c, d, e: f'hashcat -a 0 -m {a} --remove --potfile-disable "{c}" "{d}" -o "{e}"'
+
     if len(modes) > 0:
         for index,mode in enumerate(modes):
-            choice = input(f"Try to break hash with {mode}? ")
-            choice = True if len(choice)==0 or choice.lower()[0]=='y' else False
-            if choice:
-                os.system((f'hashcat -a 0 -m {list(modes.values())[index]} --remove --potfile-disable "{hashfile}"'
-                    f' "{wordlist}" -o "{crackedfile}"'))
+            shouldProceed = input(f"Try to break hash with {mode}? ")
+            shouldProceed = True if len(shouldProceed)==0 or shouldProceed.lower()[0]=='y' else False
+            if shouldProceed:
+
+                if rules_choice:
+                    os.system(getcommand(list(modes.values())[index], rule, hashfile, wordlist, crackedfile))
+                else:
+                    os.system(getcommand(list(modes.values())[index], hashfile, wordlist, crackedfile))
+
                 if os.stat("hash.txt").st_size != 0:
                     print(f"Could not break hash using {mode}") 
                 else:
@@ -56,9 +76,9 @@ if __name__ == '__main__':
         sys.exit(0)
 
     if not os.path.exists("wordlist.txt"):
-        choice = input("Wordlist does not exist, download (280MB) and install automatically? ")
-        choice = True if len(choice)==0 or choice.lower()[0]=='y' else False
-        if choice:
+        wordlistChoice = input("Wordlist does not exist, download (280MB) and install automatically? ")
+        wordlistChoice = True if len(wordlistChoice)==0 or wordlistChoice.lower()[0]=='y' else False
+        if wordlistChoice:
             url = "https://download.g0tmi1k.com/wordlists/large/crackstation-human-only.txt.gz"
             print(f"Downloading wordlist from {url} :")
             with requests.get(url ,stream=True) as r:
